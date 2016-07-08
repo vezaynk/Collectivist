@@ -1,0 +1,51 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collectivist</title>
+</head>
+<body>
+    <div class="large-3 medium-6 small-centered columns">
+        <div class="login-box">
+            <div class="row">
+                <div class="large-12 columns">
+                    <form action="auth" method="POST">
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <input type="text" name="username" placeholder="Username" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <input type="password" name="password" placeholder="Password" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-12 large-centered columns">
+                                <input type="submit" class="button large expand" value="Log In" id="loginbtn"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.css">
+
+<style>
+body {
+    background: #F0F0F3;
+}
+
+.login-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    margin: 100px 0;
+    padding: 40px 20px 0 20px;
+}
+#loginbtn{
+    width: 100%;
+}
+body, html{
+    height: auto;
+}
+</style>
+</body>

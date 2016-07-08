@@ -1,0 +1,186 @@
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collectivist</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.2/motion-ui.min.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="loading">
+    <iframe src="" style="display: none" frameborder="0" name="target"></iframe>
+
+    <div class="reveal" data-animation-in="slide-in-down" data-animation-out="slide-out-up" id="newthreaddialog" data-reveal>
+        <h1>New Topic</h1>
+        <p class="lead">
+            Note: Threads cannot be edited or deleted (for now)
+        </p>
+        <button small class="close-button small" data-close aria-label="Close modal" type="button small">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <form method="POST" target="target" action="/action/post" onsubmit="this.submit(); this.reset(); return false;">
+            <input type="text" placeholder="Title" name="title">
+            <input type="file" id="fakePostImage">
+            <input type="hidden" id="realPostImage" name="image">
+            <textarea placeholder="Body" name="body" id="" cols="30" rows="10"></textarea>
+            <input class="button small" value="Publish Topic" type="submit" onclick="$(this).parent().trigger('submit'); $(this).parent().trigger('reset');  return false;">
+        </form>
+    </div>
+    <div class="reveal" data-animation-in="slide-in-down" data-animation-out="slide-out-up" id="donatedialog" data-reveal>
+        <button small class="close-button small" data-close aria-label="Close modal" type="button small">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h1>Donate</h1>
+        <p class="lead">
+            Current Operation Costs: 10$ / Month
+        </p>
+        <p>Myth: I do not need to eat.</p>
+        <p>Fact: I need to eat.</p>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+
+    </div>
+    <div class="reveal" data-animation-in="slide-in-down" data-animation-out="slide-out-up" id="threadopen" data-reveal data-threadid="">
+        <button small class="close-button small" data-close aria-label="Close modal" type="button small">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div id="thread-dynamic">
+            <div class="row preview-thread thread-OP">
+
+            </div>
+            <h3 style="text-align: center; text-decoration: underline; color: #ccc;"><span class="reply-count">3</span> Replies</h3>
+            <div class="thread-replies">
+
+            </div>
+            <div class="post-reply">
+                <h3 style="text-align: center; text-decoration: underline; color: #ccc;">Post Reply</h3>
+                <form method="POST" target="target" id="replyForm" action="/action/reply" >
+                    <input type="text" placeholder="Title" name="title">
+                    <input type="hidden" name="threadid" id="replyThreadID">
+
+                    <input type="file" style="display:none;" id="fakeReplyImage">
+                    <input type="hidden" id="realReplyImage" name="image">
+                    <textarea placeholder="Body" name="body" id="" cols="30" rows="10"></textarea>
+                    <input class="button small" value="Publish Response" type="submit" onclick="$(this).parent().trigger('submit'); $(this).parent().trigger('reset');  return false;">
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="reveal" data-animation-in="slide-in-down" data-animation-out="slide-out-up" id="settingsdialog" data-reveal>
+        <button small class="close-button small" data-close aria-label="Close modal" type="button small">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h1>Settings</h1>
+        <form action="">
+            <input type="checkbox" name="setting1"> Enable dark mode
+            <br>
+            <input type="checkbox" name="setting2"> Mute New Messages
+            <br>
+            <input type="checkbox" name="setting3"> Custom CSS
+            <br>
+            <textarea name="custom-css" id="custom-css" cols="30" rows="10" placeholder="custom-css"></textarea>
+            <input type="submit" class="button small" value="Save">
+        </form>
+
+    </div>
+    <div class="reveal" data-animation-in="slide-in-down" data-animation-out="slide-out-up" id="shareimagedialog" data-reveal>
+        <button small class="close-button small" data-close aria-label="Close modal" type="button small">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h1>Share Image</h1>
+        <p class="lead">Click or Drag-Drop image. Keep file sizes minimal.</p>
+        <input type="file" id="fakeChatImage" style="width: 100%; height: 200px; background-color: #ccc;">
+        <form target="target" action="/action/image" method="POST">
+
+            <input type="hidden" name="image" id="realChatImage">
+            <input type="submit" value="Send Image" class="button small">
+        </form>
+    </div>
+
+    <div class="row collapse container full-page">
+        <div class="toggle-hide hide-for-small-only medium-6 columns half-page">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <ul class="dropdown menu" data-dropdown-menu>
+                        <li class="menu-text">Forum (Beta)</li>
+                    </ul>
+                </div>
+                <div class="top-bar-right">
+                    <ul class="menu">
+                        <li>
+                            <button small data-open="settingsdialog" type="button small" class="button small success">Settings</button>
+                        </li>
+                        <li>
+                            <button small data-open="newthreaddialog" type="button small" class="button small">New Thread</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="thread-list">
+
+            </div>
+        </div>
+        <div class="medium-6 columns half-page">
+            <div class="top-bar top-messenger">
+                <div class="top-bar-left">
+                    <ul class="dropdown menu" data-dropdown-menu>
+                        <li class="menu-text">Messenger</li>
+                    </ul>
+                </div>
+                <div class="top-bar-right">
+                    <ul class="menu">
+                        <li>
+                            <button small type="button small" class="button small warning" data-open="donatedialog">Donate</button>
+                        </li>
+                        <li>
+                            <button small type="button small" class="button small" data-open="shareimagedialog">Send Image</button>
+                        </li>
+                        <li>
+                            <button small onclick="window.location.href = '/logout'" type="button small" class="button small alert">Logout</button>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="push-down-by-57px"></div>
+
+            <ul style="100%;" id="messages">
+            </ul>
+
+            <form id="m" class="send-message">
+                <div class="input-group" style="margin-bottom: 0;">
+                    <input id="text-message" class="input-group-field" type="text">
+                    <div class="input-group-button">
+                        <input type="submit" class="button" value="Send">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="moment.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-linkify/1.1.7/jquery.linkify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.finger/0.1.5/jquery.finger.min.js"></script>
+
+<script src="openthread.js"></script>
+<script src="listthreads.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="sockets.js"></script>
+<script src="messenger.js"></script>
+<script src="imagehandle.js"></script><script>
+    $(document).foundation();
+</script>
+
+</html>

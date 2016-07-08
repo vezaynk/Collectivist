@@ -1,0 +1,92 @@
+.full-page {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+.half-page {
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: relative;
+}
+.container {
+    max-width: 100% !important;
+}
+.row .row {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+.preview-thread .preview-text .heading .title .author {
+    font-size: 20px;
+}
+.preview-image {
+    background-size: contain;
+    height: 200px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #fff;
+}
+.preview-thread {
+    min-height: 200px;
+    position: relative;
+    padding: 10px;
+}
+.preview-thread .footer label {
+    display: inline-block;
+}
+.close-button {
+    z-index: 9999;
+}
+
+/*Messenger*/
+
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 5px;
+    height: 500px;
+    overflow-y: auto;
+}
+#messages li.msgtxt {
+    background-image: url(https://www.chamandj.top/files/manitou.png);
+    background-repeat: no-repeat;
+    background-size: 35px 35px;
+    background-position: top left;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+#messages li.msgtxt p.msg {
+    background-color: #f1f0f0;
+    border-radius: 15px;
+    margin-right: 10px;
+    margin-left: 40px;
+    display: inline-block;
+    padding: 5px 10px;
+}
+#messages li.msgtxt.you p.msg {
+    background-color: rgb(102, 153, 204);
+    color: #fff;
+}
+#messages li.msgtxt p.msg b {
+    display: block;
+}
+#messages li.msgtxt.you p.msg b {
+    display: none;
+}
+#messages li.msgtxt.you {
+    text-align: right;
+}
+#messages li.msgnotif {
+    text-align: center;
+    color: #aaa;
+}
+.you {
+    background-image: none !important;
+}
+
+.top-bar .top-bar-left, .top-bar .top-bar-right {
+    width: auto !important;
+}
+.loading1, .loading2, .loading3{
+    display: none;
+}

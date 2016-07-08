@@ -1,0 +1,23 @@
+{
+  "name": "collectivist",
+  "version": "1.0.0",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "connect": "^3.4.1",
+    "cookie-parser": "^1.4.3",
+    "crypto": "0.0.3",
+    "escape-html": "^1.0.3",
+    "express": "^4.14.0",
+    "socket.io": "^1.4.8",
+    "socket.io-cookie": "0.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "description": ""
+}
