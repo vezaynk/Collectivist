@@ -98,7 +98,7 @@ app.post('/auth', function(req, res) {
     var password = req.body.password.hashCode();
     console.log("Attempted authentication:", username, "********")
     var token = newToken();
-    var data = fs.readFileSync("users/" + username + ".json");
+    var data = fs.readFileSync(__dirname + "/users/" + username + ".json");
     var json = JSON.parse(data);
     if (json.password == password) {
         res.cookie("token", token);
@@ -140,7 +140,7 @@ app.get('/threads/:threadid', function(req, res) {
                 if (err) return;
                 var tmp = [];
                 files.forEach(function(f) {
-                    var contents = fs.readFileSync("threads/" + f, 'utf8');
+                    var contents = fs.readFileSync(__dirname + "/threads/" + f, 'utf8');
                     var topush = JSON.parse(contents);
                     tmp.push(topush);
                 });
@@ -181,7 +181,7 @@ app.post('/action/:action', function(req, res) {
                 };
                 console.log(postObject);
                 var json = JSON.stringify(postObject);
-                fs.writeFile('threads/' + postObject.id + ".json", json, function(err) {
+                fs.writeFile(__dirname +  '/threads/' + postObject.id + ".json", json, function(err) {
 
                     if (err) throw err;
 
@@ -199,7 +199,7 @@ app.post('/action/:action', function(req, res) {
                 io.emit('chat image', msg);
 
                 var messagehtml = '<li class="' + msg.sender + ' msgtxt"><p class="msg"><b>' + msg.sender + ':</b> <img src="' + msg.message + '"></p></li>';
-                fs.appendFile('msglog.html', messagehtml, function(err) {
+                fs.appendFile(__dirname + '/msglog.html', messagehtml, function(err) {
 
                 });
                 console.log(msg);
@@ -216,13 +216,13 @@ app.post('/action/:action', function(req, res) {
                     image: escape(req.body.image),
                     time: Date.now()
                 };
-                var current = fs.readFileSync("threads/" + postObject.id + ".json")
+                var current = fs.readFileSync(__dirname + "/threads/" + postObject.id + ".json")
                 var thread = JSON.parse(current);
                 thread.points += 20000;
                 var reply = postObject;
                 thread.replies.push(reply);
                 var json = JSON.stringify(thread);
-                fs.writeFile('threads/' + postObject.id + ".json", json, function(err) {
+                fs.writeFile(__dirname + '/threads/' + postObject.id + ".json", json, function(err) {
 
                     if (err) throw err;
 
@@ -309,7 +309,7 @@ io.on('connection', function(socket) {
                 });
             }
             var messagehtml = '<li class="' + msg.sender + ' msgtxt"><p class="msg"><b>' + msg.sender + ':</b> ' + msg.message + '</p></li>';
-            fs.appendFile('msglog.html', messagehtml, function(err) {
+            fs.appendFile(__dirname + '/msglog.html', messagehtml, function(err) {
 
             });
 
@@ -334,5 +334,5 @@ io.on('connection', function(socket) {
 });
 
 http.listen(process.env.PORT || 3000, function() {
-    console.log('listening on *:' + process.env.PORT || 3000);
+    console.log("Listening");
 });
