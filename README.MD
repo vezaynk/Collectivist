@@ -4,9 +4,16 @@ Collectivist is the successor to [CDJ Messenger](https://github.com/viruzx/cdj-m
 
 Collectivist attempts to give another go at the idea of a distraction-free forum/messenger app but with a better design, cleaner code and supperior performance. As opposed to CDJ, Collectivist not longer relies on Orchestrate.io but instead stores all the data it using in `.json` files.
 
-Screenshot:
+##Screenshot:
 
 ![Collectivist](https://i.sli.mg/fdOee3.png)
+
+##Live Demo:
+
+URL: https://collectivist-demo.herokuapp.com/
+Login: user1 OR user2
+Password: (leave empty)
+
 
 #Why would I want to use Collectivist?
 
