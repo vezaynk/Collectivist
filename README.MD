@@ -10,8 +10,10 @@ Collectivist attempts to give another go at the idea of a distraction-free forum
 
 ##Live Demo:
 
-URL: https://collectivist-demo.herokuapp.com/
-Login: user1 OR user2
+View at https://collectivist-demo.herokuapp.com/
+
+Username: user1 OR user2
+
 Password: (leave empty)
 
 
