@@ -149,6 +149,7 @@ app.get('/threads/:threadid', function(req, res) {
                 res.send(sortJSON(tmp, 'points'));
             });
         } else {
+            console.log("Requesting file", __dirname + '/threads/' + req.params.threadid);
             res.sendFile(__dirname + '/threads/' + req.params.threadid);
         }
     }
@@ -182,7 +183,7 @@ app.post('/action/:action', function(req, res) {
                     replies: []
                 };
                 console.log(postObject);
-                var json = JSON.stringify(postObject);
+                console.log("Writing file", __dirname + '/threads/' + req.params.threadid);
                 fs.writeFile(__dirname +  '/threads/' + postObject.id + ".json", json, function(err) {
 
                     if (err) throw err;
