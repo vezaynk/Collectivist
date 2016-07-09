@@ -1,0 +1,5 @@
+Test
+node_modules
+.*
+threads
+users
