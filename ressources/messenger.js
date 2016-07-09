@@ -16,34 +16,60 @@ $.get("msglog", function(data) {
     $("body").removeClass("loading3");
     scrollBottom();
 });
-window.onresize = function() {
-    scrollBottom();
-}
-$('#m').bind('resize', function() {
-    scrollBottom();
-});
-$("#messages").bind("DOMSubtreeModified", function() {
-    scrollBottom();
-
-    $("img").load(function() {
-      scrollBottom();
-    });
-});
 $('.top-bar').on('doubletap', function() {
   $(".toggle-hide").toggleClass("hide-for-small-only");
 });
 
-setInterval("updateScroll",100);
+setInterval(updateScroll,100);
 var scrolled = false;
 function updateScroll(){
     if(!scrolled){
         scrollBottom();
     }
 }
-$("#m").scroll(function() {
-   if(toScroll) {
-       scrolled = true;
+$("#messages").scroll(function() {
+   if(isScrolled()) {
+       scrolled = false;
    } else {
-      scrolled = false;
+      scrolled = true;
    }
+});
+
+socket.on('disconnect', function () {
+  alert("Connection has failed. Refresh to re-establish connection.")
+  document.title = "CONNECTION FAILED";
+});
+
+
+//Thing to detect focus
+var isActive = true;
+var authenticated = false;
+window.onfocus = function() {
+    isActive = true;
+};
+
+window.onblur = function() {
+    isActive = false;
+};
+//Play a beep
+var snd = new Audio("/static/beep.wav");
+
+function play_beep() {
+    snd.play();
+    return false;
+}
+
+$(document).on("activity", function(e){
+    if (!isActive){
+      //User is not active, go crazy!
+      play_beep();
+      $.titleAlert("New Activity!", {
+        //These are here to avoid doing it on focus.
+        requireBlur: true,
+        stopOnFocus: true,
+        //Adjustable values
+        duration: 0,
+        interval: 700
+    });
+    }
 });

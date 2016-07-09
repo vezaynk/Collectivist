@@ -3,10 +3,11 @@
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Collectivist</title>
+<title>ChamanDJ.top - Collectivist</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.2/motion-ui.min.css">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="static/styles.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 
 <body class="loading">
@@ -17,7 +18,7 @@
         <p class="lead">
             Note: Threads cannot be edited or deleted (for now)
         </p>
-        <button small class="close-button small" data-close aria-label="Close modal" type="button small">
+        <button class="close-button small" data-close aria-label="Close modal" type="button small">
             <span aria-hidden="true">&times;</span>
         </button>
         <form method="POST" target="target" action="/action/post" onsubmit="this.submit(); this.reset(); return false;">
@@ -25,11 +26,11 @@
             <input type="file" id="fakePostImage">
             <input type="hidden" id="realPostImage" name="image">
             <textarea placeholder="Body" name="body" id="" cols="30" rows="10"></textarea>
-            <input class="button small" value="Publish Topic" type="submit" onclick="$(this).parent().trigger('submit'); $(this).parent().trigger('reset');  return false;">
+            <input class="button large" value="Publish Topic" type="submit" onclick="$(this).parent().trigger('submit'); $(this).parent().trigger('reset');  return false;">
         </form>
     </div>
     <div class="reveal" data-animation-in="slide-in-down" data-animation-out="slide-out-up" id="donatedialog" data-reveal>
-        <button small class="close-button small" data-close aria-label="Close modal" type="button small">
+        <button class="close-button small" data-close aria-label="Close modal" type="button small">
             <span aria-hidden="true">&times;</span>
         </button>
         <h1>Donate</h1>
@@ -48,7 +49,7 @@
 
     </div>
     <div class="reveal" data-animation-in="slide-in-down" data-animation-out="slide-out-up" id="threadopen" data-reveal data-threadid="">
-        <button small class="close-button small" data-close aria-label="Close modal" type="button small">
+        <button class="close-button small" data-close aria-label="Close modal" type="button small">
             <span aria-hidden="true">&times;</span>
         </button>
         <div id="thread-dynamic">
@@ -68,7 +69,7 @@
                     <input type="file" style="display:none;" id="fakeReplyImage">
                     <input type="hidden" id="realReplyImage" name="image">
                     <textarea placeholder="Body" name="body" id="" cols="30" rows="10"></textarea>
-                    <input class="button small" value="Publish Response" type="submit" onclick="$(this).parent().trigger('submit'); $(this).parent().trigger('reset');  return false;">
+                    <input class="button large" value="Publish Response" type="submit" onclick="$(this).parent().trigger('submit'); $(this).parent().trigger('reset');  return false;">
                 </form>
             </div>
 
@@ -76,16 +77,19 @@
         </div>
     </div>
     <div class="reveal" data-animation-in="slide-in-down" data-animation-out="slide-out-up" id="settingsdialog" data-reveal>
-        <button small class="close-button small" data-close aria-label="Close modal" type="button small">
+        <button class="close-button small" data-close aria-label="Close modal" type="button small">
             <span aria-hidden="true">&times;</span>
         </button>
         <h1>Settings</h1>
+        <p class="lead">Settings don't actually work yet. Coming soon (tm)</p>
         <form action="">
+            <a href="#" onclick="nightmode()">CLICK HERE FOR NIGHTMODE</a>
+            <br />
             <input type="checkbox" name="setting1"> Enable dark mode
             <br>
             <input type="checkbox" name="setting2"> Mute New Messages
             <br>
-            <input type="checkbox" name="setting3"> Custom CSS
+            <input type="checkbox" name="setting3" value="COMING SOON(TM)"> Custom CSS
             <br>
             <textarea name="custom-css" id="custom-css" cols="30" rows="10" placeholder="custom-css"></textarea>
             <input type="submit" class="button small" value="Save">
@@ -93,7 +97,7 @@
 
     </div>
     <div class="reveal" data-animation-in="slide-in-down" data-animation-out="slide-out-up" id="shareimagedialog" data-reveal>
-        <button small class="close-button small" data-close aria-label="Close modal" type="button small">
+        <button class="close-button small" data-close aria-label="Close modal" type="button small">
             <span aria-hidden="true">&times;</span>
         </button>
         <h1>Share Image</h1>
@@ -111,16 +115,16 @@
             <div class="top-bar">
                 <div class="top-bar-left">
                     <ul class="dropdown menu" data-dropdown-menu>
-                        <li class="menu-text">Forum (Beta)</li>
+                        <li class="menu-text">Forum</li>
                     </ul>
                 </div>
                 <div class="top-bar-right">
                     <ul class="menu">
                         <li>
-                            <button small data-open="settingsdialog" type="button small" class="button small success">Settings</button>
+                            <button data-open="settingsdialog" type="button" class="button success"> <i class="fa fa-cog" aria-hidden="true"></i> </button>
                         </li>
                         <li>
-                            <button small data-open="newthreaddialog" type="button small" class="button small">New Thread</button>
+                            <button data-open="newthreaddialog" type="button" class="button"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
                         </li>
                     </ul>
                 </div>
@@ -133,19 +137,20 @@
             <div class="top-bar top-messenger">
                 <div class="top-bar-left">
                     <ul class="dropdown menu" data-dropdown-menu>
-                        <li class="menu-text">Messenger</li>
+                        <li class="menu-text">Chat</li>
                     </ul>
                 </div>
                 <div class="top-bar-right">
                     <ul class="menu">
                         <li>
-                            <button small type="button small" class="button small warning" data-open="donatedialog">Donate</button>
+                            <button type="button" class="button warning" data-open="donatedialog"><i class="fa fa-usd" aria-hidden="true"></i><i class="fa fa-usd" aria-hidden="true"></i><i class="fa fa-usd" aria-hidden="true"></i></button>
                         </li>
                         <li>
-                            <button small type="button small" class="button small" data-open="shareimagedialog">Send Image</button>
+                            <button type="button" class="button" data-open="shareimagedialog"> <i class="fa fa-picture-o" aria-hidden="true"></i> </button>
                         </li>
                         <li>
-                            <button small onclick="window.location.href = '/logout'" type="button small" class="button small alert">Logout</button>
+                            <button onclick="window.location.href = '/logout'" type="button" class="button alert"> <i class="fa fa-sign-out" aria-hidden="true"></i>
+</button>
 
                         </li>
                     </ul>
@@ -156,7 +161,7 @@
             <ul style="100%;" id="messages">
             </ul>
 
-            <form id="m" class="send-message">
+            <form id="m" class="send-message" autocomplete="off">
                 <div class="input-group" style="margin-bottom: 0;">
                     <input id="text-message" class="input-group-field" type="text">
                     <div class="input-group-button">
@@ -167,19 +172,20 @@
         </div>
     </div>
 </body>
-<script src="moment.js"></script>
+<script src="static/moment.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-linkify/1.1.7/jquery.linkify.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.finger/0.1.5/jquery.finger.min.js"></script>
 
-<script src="openthread.js"></script>
-<script src="listthreads.js"></script>
+<script src="static/openthread.js"></script>
+<script src="static/listthreads.js"></script>
+<script src="static/titlealert.js"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="sockets.js"></script>
-<script src="messenger.js"></script>
-<script src="imagehandle.js"></script><script>
+<script src="static/sockets.js"></script>
+<script src="static/messenger.js"></script>
+<script src="static/imagehandle.js"></script><script>
     $(document).foundation();
 </script>
 

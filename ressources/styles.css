@@ -24,7 +24,6 @@
     height: 200px;
     background-position: center center;
     background-repeat: no-repeat;
-    background-color: #fff;
 }
 .preview-thread {
     min-height: 200px;
@@ -48,7 +47,7 @@
     overflow-y: auto;
 }
 #messages li.msgtxt {
-    background-image: url(https://www.chamandj.top/files/manitou.png);
+    background-image: url(https://github.com/viruzx/Optimium/blob/master/assets/img/unknown.png?raw=true);
     background-repeat: no-repeat;
     background-size: 35px 35px;
     background-position: top left;
@@ -84,9 +83,18 @@
     background-image: none !important;
 }
 
+.you a{
+    color: #ccc;
+}
+
 .top-bar .top-bar-left, .top-bar .top-bar-right {
     width: auto !important;
 }
 .loading1, .loading2, .loading3{
     display: none;
+}
+
+.top-bar button{
+  padding-left: 25px;
+  padding-right: 25px;
 }

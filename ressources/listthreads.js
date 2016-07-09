@@ -12,11 +12,25 @@ function addThread(id, title, poster, body, image, time, replies) {
     $(replyhtml).prependTo(".thread-list");
     console.log(title);
 }
-$(window).on("load", function() {
-    $("body").removeClass("loading1");
-    scrollBottom();
-});
 getList();
 setInterval(function() {
     $('p').linkify();
 }, 1200);
+
+
+//Move to another file
+function nightmode(){
+   $("<link/>", {
+      rel: "stylesheet",
+      type: "text/css",
+      href: "static/nightmode.css"
+   }).appendTo("head");
+}
+
+function injectStyles(rule) {
+  var div = $("<div />", {
+    html: '&shy;<style>' + rule + '</style>'
+  }).appendTo("body");
+}
+
+injectStyles('a:hover { color: red; }');

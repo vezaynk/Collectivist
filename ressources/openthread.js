@@ -25,7 +25,7 @@ function openThread(id, title, poster, body, image, time, replies) {
 }
 
 function addReply(id, title, poster, body, image, time) {
-    var replyhtml = "<div class=\"small-12 columns preview-text\">\r\n                    <div class=\"row heading\">\r\n                        <h3 class=\"title\">" + title + "<\/h3>\r\n                        <h6>ID: <span class=\"author\">" + poster + "<\/span><\/h6>\r\n                    <\/div>\r\n                    <div class=\"row body\">\r\n                        <p>" + body + "<\/p>\r\n                    <\/div>\r\n                <\/div><\/div><hr>";
+    var replyhtml = "<div class=\"small-12 columns preview-text\"><div class=\"row heading\"><h3 class=\"title\">" + title + "<\/h3> <h6>ID: <span class=\"author\">" + poster + "<\/span><\/h6><\/div><div class=\"row body\"><p>" + body + "<\/p><\/div><\/div><\/div><hr>";
     //Append only if threadid matches
     if ($("#threadopen").data("threadid") == id) {
         $(replyhtml).appendTo("#thread-dynamic .thread-replies");

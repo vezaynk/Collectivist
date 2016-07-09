@@ -6,6 +6,7 @@ var Crypto = require("crypto");
 var escape = require('escape-html');
 var cookieParser = require('cookie-parser')
 var cookieParser2 = require('socket.io-cookie');
+var bodyParser = require('body-parser')
 io.use(cookieParser2);
 
 String.prototype.hashCode = function() {
@@ -60,9 +61,10 @@ function sortJSON(data, key) {
 var tokens = [];
 
 function logout(token) {
+    console.log("Destroying token:", token);
+    console.log("De-auth", tokens[token]);
     delete tokens[token];
 }
-var bodyParser = require('body-parser')
 app.use(bodyParser.json({
     limit: '10mb'
 })); // to support JSON-encoded bodies
@@ -92,9 +94,9 @@ app.get('/', function(req, res) {
     }
 });
 app.post('/auth', function(req, res) {
-    console.log(req.body);
     var username = req.body.username;
     var password = req.body.password.hashCode();
+    console.log("Attempted authentication:", username, "********")
     var token = newToken();
     var data = fs.readFileSync("users/" + username + ".json");
     var json = JSON.parse(data);
@@ -102,6 +104,9 @@ app.post('/auth', function(req, res) {
         res.cookie("token", token);
         res.cookie("localUser", req.body.username);
         tokens[token] = username;
+        console.log("User", username, "is authenticated under the token", token);
+    } else {
+        console.log("User auth for", username, "has failed. Token is destroyed.");
     }
     res.writeHead(302, {
         'Location': '/'
@@ -110,26 +115,8 @@ app.post('/auth', function(req, res) {
 });
 
 //Scripts and CSS
-app.get('/messenger.js', function(req, res) {
-    res.sendFile(__dirname + '/ressources/messenger.js');
-});
-app.get('/sockets.js', function(req, res) {
-    res.sendFile(__dirname + '/ressources/sockets.js');
-});
-app.get('/imagehandle.js', function(req, res) {
-    res.sendFile(__dirname + '/ressources/imagehandle.js');
-});
-app.get('/moment.js', function(req, res) {
-    res.sendFile(__dirname + '/ressources/moment.js');
-});
-app.get('/openthread.js', function(req, res) {
-    res.sendFile(__dirname + '/ressources/openthread.js');
-});
-app.get('/listthreads.js', function(req, res) {
-    res.sendFile(__dirname + '/ressources/listthreads.js');
-});
-app.get('/styles.css', function(req, res) {
-    res.sendFile(__dirname + '/ressources/styles.css');
+app.get('/static/:file', function(req, res) {
+    res.sendFile(__dirname + '/ressources/' + req.params.file);
 });
 
 app.get("/logout", function(req, res) {
