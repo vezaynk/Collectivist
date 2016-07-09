@@ -1,6 +1,6 @@
 {
   "name": "collectivist",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.15.2",
@@ -16,8 +16,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": "5.0.0"
+  },
+  "author": "Slava Knyazev",
+  "license": "BSD-2-Clause",
   "keywords": [],
-  "description": ""
+  "description": "Collectivist is the successor to [CDJ Messenger](https://github.com/viruzx/cdj-messenger) which was crippled by it's own excessive and redundant security measures and proceedures.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viruzx/Collectivist.git"
+  },
+  "bugs": {
+    "url": "https://github.com/viruzx/Collectivist/issues"
+  },
+  "homepage": "https://github.com/viruzx/Collectivist#readme"
 }
