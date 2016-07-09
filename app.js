@@ -88,6 +88,8 @@ function loggedIn(token) {
 }
 app.get('/', function(req, res) {
     if (!loggedIn(req.cookies.token)) {
+        //debugging shit
+        console.log(__dirname + '/login.html');
         res.sendFile(__dirname + '/login.html');
     } else {
         res.sendFile(__dirname + '/index.html');
