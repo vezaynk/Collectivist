@@ -4,3 +4,4 @@ node_modules
 threads/*
 users/*
 msglog.html
+threads/demo.json
