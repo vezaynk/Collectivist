@@ -96,7 +96,7 @@ app.get('/', function(req, res) {
     }
 });
 app.post('/auth', function(req, res) {
-    var username = req.body.username;
+    var username = req.body.username.toLowerCase();
     var password = req.body.password.hashCode();
     console.log("Attempted authentication:", username, "********")
     var token = newToken();
