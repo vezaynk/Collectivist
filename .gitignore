@@ -3,6 +3,7 @@ users/*
 threads/*
 
 # Logs
+msglog.html
 logs
 *.log
 npm-debug.log*
