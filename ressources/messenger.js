@@ -36,8 +36,7 @@ $("#messages").scroll(function() {
 });
 
 socket.on('disconnect', function () {
-  alert("Connection has failed. Refresh to re-establish connection.")
-  document.title = "CONNECTION FAILED";
+  location.reload();
 });
 
 
