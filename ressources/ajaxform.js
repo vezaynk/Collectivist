@@ -1276,4 +1276,4 @@ function log() {
 
 }));
 
-$("form").ajaxForm(function(result) {alert("File size: " + JSON.parse(result).size);});
+$("form").ajaxForm(function(result) {console.log(result)});
