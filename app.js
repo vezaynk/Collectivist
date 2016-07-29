@@ -184,7 +184,7 @@ app.post('/action/:action', function(req, res) {
                 };
                 console.log(postObject);
                 console.log("Writing file", __dirname + '/threads/' + postObject.id + ".json");
-                fs.writeFile(__dirname +  '/threads/' + postObject.id + ".json", json, function(err) {
+                fs.writeFile(__dirname +  '/threads/' + postObject.id + ".json", JSON.stringify(postObject), function(err) {
 
                     if (err) throw err;
 
