@@ -1,5 +1,3 @@
-
-
 var socket = io();
 
 function readCookie(name) {
@@ -27,7 +25,7 @@ function isScrolled() {
 }
 
 function scrollBottom() {
-    var objDiv = document.getElementById("messages");
+    var objDiv = $("#messages")[0];
     objDiv.scrollTop = objDiv.scrollHeight;
 }
 socket.on("chat message", function(data) {
@@ -37,7 +35,7 @@ socket.on("chat message", function(data) {
     var message = data.message;
     var messagehtml = '<li class="' + sender + ' msgtxt"><p class="msg"><b>' + sender + ':</b> ' + message + '</p></li>';
     $("#messages").append(messagehtml);
-    if (toScroll){
+    if (toScroll) {
         scrollBottom();
     }
     $("." + localUser + ".msgtxt:not(.you)").addClass("you");
@@ -49,7 +47,7 @@ socket.on("chat image", function(data) {
     var image64 = data.message;
     var messagehtml = '<li class="' + sender + ' msgtxt"><p class="msg"><b>' + sender + ':</b> <img src="' + image64 + '"></p></li>';
     $("#messages").append(messagehtml);
-    if (toScroll){
+    if (toScroll) {
         scrollBottom();
     }
     $("." + localUser + ".msgtxt:not(.you)").addClass("you");
@@ -60,7 +58,7 @@ socket.on("chat status", function(data) {
     var status = data.message;
     var messagehtml = '<li class="msgnotif"><p class="msg"><b>' + subject + '</b> ' + status + '</p></li>';
     $("#messages").append(messagehtml);
-    if (toScroll){
+    if (toScroll) {
         scrollBottom();
     }
     $("." + localUser + ".msgtxt:not(.you)").addClass("you");

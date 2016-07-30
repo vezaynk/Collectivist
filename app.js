@@ -1,3 +1,6 @@
+'use strict';
+
+
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -22,7 +25,7 @@ String.prototype.hashCode = function() {
 };
 
 Array.prototype.includes = function(searchElement /*, fromIndex*/ ) {
-    'use strict';
+
     var O = Object(this);
     var len = parseInt(O.length, 10) || 0;
     if (len === 0) {
