@@ -21,12 +21,12 @@
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
-        <form method="POST" target="target" action="/action/post" onsubmit="this.submit(); this.reset(); return false;">
+        <form method="POST" target="target" action="/action/post">
             <input type="text" placeholder="Title" name="title">
             <input type="file" id="fakePostImage">
             <input type="hidden" id="realPostImage" name="image">
             <textarea placeholder="Body" name="body" id="" cols="30" rows="10"></textarea>
-            <input class="button large" value="Publish Topic" type="submit" onclick="$(this).parent().trigger('submit'); $(this).parent().trigger('reset');  return false;">
+            <input class="button large" value="Publish Topic" type="submit">
         </form>
     </div>
     <div class="reveal" data-animation-in="slide-in-down" data-animation-out="slide-out-up" id="donatedialog" data-reveal>
@@ -69,7 +69,7 @@
                     <input type="file" style="display:none;" id="fakeReplyImage">
                     <input type="hidden" id="realReplyImage" name="image">
                     <textarea placeholder="Body" name="body" id="" cols="30" rows="10"></textarea>
-                    <input class="button large" value="Publish Response" type="submit" onclick="$(this).parent().trigger('submit'); $(this).parent().trigger('reset');  return false;">
+                    <input class="button large" value="Publish Response" type="submit">
                 </form>
             </div>
 
