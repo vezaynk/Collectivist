@@ -10,6 +10,20 @@ var escape = require('escape-html');
 var cookieParser = require('cookie-parser')
 var cookieParser2 = require('socket.io-cookie');
 var bodyParser = require('body-parser')
+var util = require('util');
+var moment = require('moment');
+var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+var log_stdout = process.stdout;
+
+//Overload console.log to log to file.
+console.log = function(d) {
+  //Log to stdout per usual anyways for live debugging and expected behavior.
+  d = "[" + moment().format() + "]" + d;
+  process.stdout.write(d + '\n');
+  log_file.write(util.format(d) + '\n');
+  log_stdout.write(util.format(d) + '\n');
+};
+
 io.use(cookieParser2);
 
 String.prototype.hashCode = function() {
@@ -204,7 +218,7 @@ app.post('/action/:action', function(req, res) {
                 }
                 io.emit('chat image', msg);
 
-                var messagehtml = '<li class="' + msg.sender + ' msgtxt"><p class="msg"><b>' + msg.sender + ':</b> <img src="' + msg.message + '"></p></li>';
+                var messagehtml = '<li class="' + msg.sender + ' msgtxt"><p class="msg"><b>' + msg.sender + ':</b> <img src="' + msg.message + '"></p></li>\n';
                 fs.appendFile(__dirname + '/msglog.html', messagehtml, function(err) {
 
                 });
@@ -260,7 +274,6 @@ function onlineList() {
 }
 
 function isOnline(id) {
-    console.log(id, clients.includes(id));
     return clients.includes(id);
 }
 
@@ -279,7 +292,6 @@ function removeUser(id) {
     clients = clients.filter(function(n) {
         return n != undefined
     });
-    console.log(clients);
 }
 io.on('connection', function(socket) {
     var username = loggedIn(socket.request.headers.cookie.token);

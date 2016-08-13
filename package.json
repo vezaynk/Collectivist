@@ -9,12 +9,13 @@
     "crypto": "0.0.3",
     "escape-html": "^1.0.3",
     "express": "^4.14.0",
+    "moment": "^2.14.1",
     "socket.io": "^1.4.8",
     "socket.io-cookie": "0.0.1"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "engines": {
     "node": "5.0.0"
@@ -29,9 +30,6 @@
   },
   "bugs": {
     "url": "https://github.com/viruzx/Collectivist/issues"
-  },
-  "scripts": {
-    "start": "node app.js"
   },
   "homepage": "https://github.com/viruzx/Collectivist#readme"
 }
