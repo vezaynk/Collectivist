@@ -327,6 +327,13 @@ io.on('connection', function(socket) {
                             id: "typing-" + socket.id.split("").splice(2, 21).join(""),
                             typing: socket.typing
                         });
+                    } else {
+                        io.emit('typing', {
+                            username: socket.username,
+                            id: "typing-" + socket.id.split("").splice(2, 21).join(""),
+                            typing: false
+                        });
+                        clearInterval(socket.typingloop);
                     }
                     socket.typing = false;
                 }, 1000)
