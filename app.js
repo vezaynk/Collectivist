@@ -319,6 +319,15 @@ io.on('connection', function(socket) {
             });
             console.log(socket.username + " has connected");
             var messagehtml = '<li class="msgnotif"><p class="msg"><b>' + socket.username + '</b> ' + "has connected" + '</p></li>';
+
+            socket.typingloop = setInterval(function(){
+                    io.emit('typing', {
+                        username: socket.username,
+                        id: "typing-" + socket.id.split("").splice(2, 21).join(""),
+                        typing: socket.typing
+                    });
+                socket.typing = false;
+            }, 1000)
             //fs.appendFile('msglog.html', messagehtml, function(err) {});
         }
 
@@ -348,8 +357,16 @@ io.on('connection', function(socket) {
         }
 
     });
+
+    socket.typing = false;
+    socket.on('typing', function(data) {
+        socket.typing = true;
+        
+    });
+
     socket.on('disconnect', function() {
         removeUser(socket.username);
+        clearInterval(socket.typingloop);
         if (!isOnline(socket.username)) {
             setTimeout(function() {
                 if (!isOnline(socket.username)) {
@@ -362,10 +379,6 @@ io.on('connection', function(socket) {
                     console.log(socket.username + " has reconnected");
                 }
             }, 2000);
-
-
-            var messagehtml = '<li class="msgnotif"><p class="msg"><b>' + socket.username + '</b> ' + "has disconnected" + '</p></li>';
-            //fs.appendFile('msglog.html', messagehtml, function(err) {});
         }
 
 

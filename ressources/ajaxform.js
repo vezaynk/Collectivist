@@ -1312,7 +1312,6 @@
     }));
 
 $("form").ajaxForm(function(result) {
-    this.reset();
-    console.log(result);
+    $(this).clearForm();
     console.log("Ajax Submit");
 });
