@@ -84,8 +84,8 @@ function sortJSON(data, key) {
 var tokens = [];
 
 function logout(token) {
-    console.log("Destroying token:", token);
-    console.log("De-auth", tokens[token]);
+    console.log("Destroying token: " + token);
+    console.log("De-auth " + tokens[token]);
     delete tokens[token];
 }
 app.use(bodyParser.json({
@@ -121,7 +121,7 @@ app.get('/', function(req, res) {
 app.post('/auth', function(req, res) {
     var username = req.body.username.toLowerCase();
     var password = req.body.password.hashCode();
-    console.log("Attempted authentication:", username, "********")
+    console.log("Attempted authentication: " + username + "********")
     var token = newToken();
     var data = fs.readFileSync(__dirname + "/users/" + username + ".json");
     var json = JSON.parse(data);
@@ -213,7 +213,7 @@ app.post('/action/:action', upload.single('image'), function(req, res) {
                     replies: []
                 };
                 console.log(JSON.stringify(postObject));
-                console.log("Writing file", __dirname + '/threads/' + postObject.id + ".json");
+                console.log("Writing file " + __dirname + '/threads/' + postObject.id + ".json");
                 fs.writeFile(__dirname + '/threads/' + postObject.id + ".json", JSON.stringify(postObject), function(err) {
 
                     if (err) throw err;
@@ -365,5 +365,5 @@ io.on('connection', function(socket) {
 });
 
 http.listen(process.env.PORT || 3000, function() {
-    console.log("Collectivist is ready and listening on port " + process.env.PORT || 3000);
+    console.log("Collectivist is ready");
 });
