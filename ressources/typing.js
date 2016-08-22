@@ -3,17 +3,16 @@ $("#text-message").keyup(function() {
 });
 
 socket.on('typing', function(data) {
-    var elem = $("#" + data.id);
     if (data.typing) {
-        if (!elem.length && localUser != data.username) {
+        if (!$("#" + data.id).length && localUser != data.username) {
             //Create typing element
             $("#messages").append('<li id="' + data.id + '" class="' + data.username + ' typing msgtxt"><p class="msg"><b>' + data.username + ':</b> <i>Typing...</i></p></li>');
         }
     } else {
-        elem.remove();
+        $("#" + data.id).remove();
     }
 
-    $("#messages").append(elem);
+    $("#messages").append($("#" + data.id));
     console.log(data);
 
 });
