@@ -321,7 +321,7 @@ io.on('connection', function(socket) {
             var messagehtml = '<li class="msgnotif"><p class="msg"><b>' + socket.username + '</b> ' + "has connected" + '</p></li>';
 
             socket.typingloop = setInterval(function() {
-                    if (!isOnline(socket.username)) {
+                    if (isOnline(socket.username)) {
                         io.emit('typing', {
                             username: socket.username,
                             id: "typing-" + socket.id.split("").splice(2, 21).join(""),
