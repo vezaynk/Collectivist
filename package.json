@@ -10,6 +10,8 @@
     "escape-html": "^1.0.3",
     "express": "^4.14.0",
     "moment": "^2.14.1",
+    "multer": "^1.2.0",
+    "q": "^1.4.1",
     "socket.io": "^1.4.8",
     "socket.io-cookie": "0.0.1"
   },

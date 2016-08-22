@@ -2,6 +2,7 @@
 
 
 var app = require('express')();
+var q = require('q');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var fs = require('fs');
@@ -12,16 +13,21 @@ var cookieParser2 = require('socket.io-cookie');
 var bodyParser = require('body-parser')
 var util = require('util');
 var moment = require('moment');
-var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+var log_file = fs.createWriteStream(__dirname + '/debug.log', {
+    flags: 'w'
+});
 var log_stdout = process.stdout;
+var multer = require('multer');
+var upload = multer({
+    dest: './uploads'
+});
+
 
 //Overload console.log to log to file.
 console.log = function(d) {
-  //Log to stdout per usual anyways for live debugging and expected behavior.
-  d = "[" + moment().format() + "]" + d;
-  process.stdout.write(d + '\n');
-  log_file.write(util.format(d) + '\n');
-  log_stdout.write(util.format(d) + '\n');
+    d = "[" + moment().format() + "]" + d;
+    process.stdout.write(d + '\n');
+    log_file.write(util.format(d) + '\n');
 };
 
 io.use(cookieParser2);
@@ -138,6 +144,10 @@ app.get('/static/:file', function(req, res) {
     res.sendFile(__dirname + '/ressources/' + req.params.file);
 });
 
+app.get('/uploads/:file', function(req, res) {
+    res.sendFile(__dirname + '/uploads/' + req.params.file);
+});
+
 app.get("/logout", function(req, res) {
     logout(req.cookies.token);
     res.sendFile(__dirname + '/login.html');
@@ -146,7 +156,10 @@ app.get("/msglog", function(req, res) {
     if (!loggedIn(req.cookies.token)) {
         res.sendFile(__dirname + '/login.html');
     } else {
-        res.sendFile(__dirname + '/msglog.html');
+        fs.readFile(__dirname + '/msglog.html', function (err, value){
+            //Convert to string, get 100 latest messages and send.
+            res.send((value + "").split("\n").reverse().slice(0, 100).reverse().join(""));
+        });
     }
 });
 //Threads
@@ -174,7 +187,7 @@ app.get('/threads/:threadid', function(req, res) {
 });
 
 //Actions
-app.post('/action/:action', function(req, res) {
+app.post('/action/:action', upload.single('image'), function(req, res) {
     if (!loggedIn(req.cookies.token)) {
         res.sendFile(__dirname + '/login.html');
     } else {
@@ -194,14 +207,14 @@ app.post('/action/:action', function(req, res) {
                     title: escape(req.body.title),
                     poster: escape(loggedIn(req.cookies.token)),
                     body: escape(req.body.body),
-                    image: escape(req.body.image),
+                    image: "/" + req.file.path,
                     time: Date.now(),
                     points: Date.now(),
                     replies: []
                 };
-                console.log(postObject);
+                console.log(JSON.stringify(postObject));
                 console.log("Writing file", __dirname + '/threads/' + postObject.id + ".json");
-                fs.writeFile(__dirname +  '/threads/' + postObject.id + ".json", JSON.stringify(postObject), function(err) {
+                fs.writeFile(__dirname + '/threads/' + postObject.id + ".json", JSON.stringify(postObject), function(err) {
 
                     if (err) throw err;
 
@@ -214,7 +227,7 @@ app.post('/action/:action', function(req, res) {
 
                 var msg = {
                     sender: loggedIn(req.cookies.token),
-                    message: req.body.image
+                    message: "/" + req.file.path,
                 }
                 io.emit('chat image', msg);
 
@@ -233,7 +246,7 @@ app.post('/action/:action', function(req, res) {
                     title: escape(req.body.title),
                     poster: escape(loggedIn(req.cookies.token)),
                     body: escape(req.body.body),
-                    image: escape(req.body.image),
+                    image: "/" + req.file.path,
                     time: Date.now()
                 };
                 var current = fs.readFileSync(__dirname + "/threads/" + postObject.id + ".json")
@@ -326,7 +339,7 @@ io.on('connection', function(socket) {
                     message: onlineList()
                 });
             }
-            var messagehtml = '<li class="' + msg.sender + ' msgtxt"><p class="msg"><b>' + msg.sender + ':</b> ' + msg.message + '</p></li>';
+            var messagehtml = '<li class="' + msg.sender + ' msgtxt"><p class="msg"><b>' + msg.sender + ':</b> ' + msg.message + '</p></li>\n';
             fs.appendFile(__dirname + '/msglog.html', messagehtml, function(err) {
 
             });
