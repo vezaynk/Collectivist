@@ -156,7 +156,7 @@ app.get("/msglog", function(req, res) {
     if (!loggedIn(req.cookies.token)) {
         res.sendFile(__dirname + '/login.html');
     } else {
-        fs.readFile(__dirname + '/msglog.html', function (err, value){
+        fs.readFile(__dirname + '/msglog.html', function(err, value) {
             //Convert to string, get 100 latest messages and send.
             res.send((value + "").split("\n").reverse().slice(0, 100).reverse().join(""));
         });
@@ -179,7 +179,7 @@ app.get('/threads/:threadid', function(req, res) {
                 res.send(sortJSON(tmp, 'points'));
             });
         } else {
-            console.log("Requesting file " +  __dirname + '/threads/' + req.params.threadid);
+            console.log("Requesting file " + __dirname + '/threads/' + req.params.threadid);
             res.sendFile(__dirname + '/threads/' + req.params.threadid);
         }
     }
@@ -351,11 +351,19 @@ io.on('connection', function(socket) {
     socket.on('disconnect', function() {
         removeUser(socket.username);
         if (!isOnline(socket.username)) {
-            io.emit("chat status", {
-                sender: socket.username,
-                message: "has disconnected"
-            });
-            console.log(socket.username + " has disconnected");
+            setTimeout(function() {
+                if (!isOnline(socket.username)) {
+                    io.emit("chat status", {
+                        sender: socket.username,
+                        message: "has disconnected"
+                    });
+                    console.log(socket.username + " has disconnected");
+                } else {
+                    console.log(socket.username + " has reconnected");
+                }
+            }, 2000);
+
+
             var messagehtml = '<li class="msgnotif"><p class="msg"><b>' + socket.username + '</b> ' + "has disconnected" + '</p></li>';
             //fs.appendFile('msglog.html', messagehtml, function(err) {});
         }
