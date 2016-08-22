@@ -129,9 +129,9 @@ app.post('/auth', function(req, res) {
         res.cookie("token", token);
         res.cookie("localUser", req.body.username);
         tokens[token] = username;
-        console.log("User", username, "is authenticated under the token", token);
+        console.log("User " + username + " is authenticated under the token", token);
     } else {
-        console.log("User auth for", username, "has failed. Token is destroyed.");
+        console.log("User auth for " + username + " has failed. Token is destroyed.");
     }
     res.writeHead(302, {
         'Location': '/'
@@ -179,7 +179,7 @@ app.get('/threads/:threadid', function(req, res) {
                 res.send(sortJSON(tmp, 'points'));
             });
         } else {
-            console.log("Requesting file", __dirname + '/threads/' + req.params.threadid);
+            console.log("Requesting file " +  __dirname + '/threads/' + req.params.threadid);
             res.sendFile(__dirname + '/threads/' + req.params.threadid);
         }
     }
@@ -365,5 +365,5 @@ io.on('connection', function(socket) {
 });
 
 http.listen(process.env.PORT || 3000, function() {
-    console.log("Listening");
+    console.log("Collectivist is ready and listening on port " + process.env.PORT || 3000);
 });
