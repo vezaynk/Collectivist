@@ -47,7 +47,7 @@ function loadThread(threadid) {
             break;
         case "s":
             break;
-        case default:
+        default:
             getThread(threadid);
     }
 
