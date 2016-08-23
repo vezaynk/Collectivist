@@ -320,6 +320,7 @@ io.on('connection', function(socket) {
             console.log(socket.username + " has connected");
             var messagehtml = '<li class="msgnotif"><p class="msg"><b>' + socket.username + '</b> ' + "has connected" + '</p></li>';
 
+            socket.typinglast = false;
             socket.typingloop = setInterval(function() {
                     if (isOnline(socket.username)) {
                         io.emit('typing', {
@@ -327,6 +328,7 @@ io.on('connection', function(socket) {
                             id: "typing-" + socket.id.split("").splice(2, 21).join(""),
                             typing: socket.typing
                         });
+                        socket.typinglast = !socket.typinglast;
                     } else {
                         io.emit('typing', {
                             username: socket.username,
@@ -375,7 +377,13 @@ io.on('connection', function(socket) {
 
     socket.on('disconnect', function() {
         removeUser(socket.username);
-        clearInterval(socket.typingloop);
+
+        io.emit('typing', {
+            username: socket.username,
+            id: "typing-" + socket.id.split("").splice(2, 21).join(""),
+            typing: false
+        });
+        
         if (!isOnline(socket.username)) {
             setTimeout(function() {
                 if (!isOnline(socket.username)) {

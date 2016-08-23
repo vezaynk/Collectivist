@@ -13,6 +13,6 @@ socket.on('typing', function(data) {
     }
 
     $("#messages").append($("#" + data.id));
-    console.log(data);
+    //console.log(data);
 
 });
