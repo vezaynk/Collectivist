@@ -10,6 +10,7 @@ function getThread(threadid) {
         json.replies.forEach(function(value, index, array) {
             addReply(threadid, value.title, value.poster, value.body, value.image, value.time)
         });
+        $('#threadopen').foundation('toggle');
     });
 }
 
@@ -24,7 +25,7 @@ function openThread(id, title, poster, body, image, time, replies) {
     $("#thread-dynamic .reply-count").html(replies.length);
 
     $('.toggleImage').on('click', function() {
-      $(".toggleImage").toggleClass("medium-4");
+        $(".toggleImage").toggleClass("medium-4");
 
     });
 }
@@ -39,11 +40,21 @@ function addReply(id, title, poster, body, image, time) {
 }
 
 function loadThread(threadid) {
-    getThread(threadid);
+    switch (threadid) {
+        case "s":
+            break;
+        case "d":
+            break;
+        case "s":
+            break;
+        case default:
+            getThread(threadid);
+    }
+
 }
 
 $(document).on("click", ".thread-button", function() {
     var postid = $(this).data("postid");
     loadThread(postid);
-    $('#threadopen').foundation('toggle');
+
 });
