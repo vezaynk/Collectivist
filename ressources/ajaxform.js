@@ -1311,7 +1311,6 @@
 
     }));
 
-var test = null;
 $("form").ajaxForm(function(result, status, xhr, form) {
     form.clearForm();
     console.log("Ajax Submit");

@@ -124,6 +124,9 @@ app.post('/auth', function(req, res) {
     console.log("Attempted authentication: " + username + " ********")
     var token = newToken();
     var data = fs.readFile(__dirname + "/users/" + username + ".json", function (err, data){
+        if (err){
+            return;
+        }
         var json = JSON.parse(data);
         if (json.password == password && !err) {
             res.cookie("token", token);
@@ -176,6 +179,9 @@ app.get('/threads/:threadid', function(req, res) {
                 var tmp = [];
                 files.forEach(function(f, i) {
                     fs.readFile(__dirname + "/threads/" + f, 'utf8', function (err, contents){
+                        if (err){
+                            return;
+                        }
                         var topush = JSON.parse(contents);
                         tmp.push(topush);
                         if (i == files.length - 1){
@@ -258,6 +264,9 @@ app.post('/post/reply', function(req, res) {
         };
 
         fs.readFile(__dirname + "/threads/" + postObject.id + ".json", function(err, current) {
+            if (err){
+                return;
+            }
             var thread = JSON.parse(current);
             thread.points += 20000;
             var reply = postObject;
