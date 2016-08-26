@@ -18,7 +18,10 @@ socket.on('thread new', function(data) {
     console.log(data);
     addThread(data.id, data.title, data.poster, data.body, data.image, data.time, data.replies);
 });
-
+socket.on('thread delete', function(data) {
+    console.log("Deleted thread: " + data);
+    $(".t-" + data).remove();
+});
 function isScrolled() {
     var node = $("#messages")[0];
     return (node.scrollTop + node.offsetHeight === node.scrollHeight);

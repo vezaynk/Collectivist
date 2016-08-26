@@ -121,7 +121,7 @@ app.get('/', function(req, res) {
 app.post('/auth', function(req, res) {
     var username = req.body.username.toLowerCase();
     var password = req.body.password.hashCode();
-    console.log("Attempted authentication: " + username + "********")
+    console.log("Attempted authentication: " + username + " ********")
     var token = newToken();
     var data = fs.readFileSync(__dirname + "/users/" + username + ".json");
     var json = JSON.parse(data);
@@ -129,7 +129,7 @@ app.post('/auth', function(req, res) {
         res.cookie("token", token);
         res.cookie("localUser", req.body.username);
         tokens[token] = username;
-        console.log("User " + username + " is authenticated under the token", token);
+        console.log("User " + username + " is authenticated under the token " + token);
     } else {
         console.log("User auth for " + username + " has failed. Token is destroyed.");
     }
@@ -186,86 +186,91 @@ app.get('/threads/:threadid', function(req, res) {
 
 });
 
-//Actions
-app.post('/action/:action', upload.single('image'), function(req, res) {
+app.post('/post/new', upload.single('image'), function(req, res) {
     if (!loggedIn(req.cookies.token)) {
         res.sendFile(__dirname + '/login.html');
     } else {
-        res.send("Sent");
-        var action = req.params.action;
-        /* Authen
-        var user = req.cookies.user;
-        var key = req.cookies.key;
-        */
-        switch (action) {
-            case "post":
-                console.log("New Post");
+        console.log("New Post");
 
-                //Create object
-                var postObject = {
-                    id: newToken(),
-                    title: escape(req.body.title),
-                    poster: escape(loggedIn(req.cookies.token)),
-                    body: escape(req.body.body),
-                    image: "/" + req.file.path,
-                    time: Date.now(),
-                    points: Date.now(),
-                    replies: []
-                };
-                console.log(JSON.stringify(postObject));
-                console.log("Writing file " + __dirname + '/threads/' + postObject.id + ".json");
-                fs.writeFile(__dirname + '/threads/' + postObject.id + ".json", JSON.stringify(postObject), function(err) {
+        //Create object
+        var postObject = {
+            id: newToken(),
+            title: escape(req.body.title),
+            poster: escape(loggedIn(req.cookies.token)),
+            body: escape(req.body.body),
+            image: "/" + req.file.path,
+            time: Date.now(),
+            points: Date.now(),
+            replies: []
+        };
+        console.log(JSON.stringify(postObject));
+        res.send(JSON.stringify(postObject));
+        console.log("Writing file " + __dirname + '/threads/' + postObject.id + ".json");
+        fs.writeFile(__dirname + '/threads/' + postObject.id + ".json", JSON.stringify(postObject), function(err) {
 
-                    if (err) throw err;
+            if (err) throw err;
 
-                    console.log('New Thread');
-                    io.sockets.emit('thread new', postObject);
-                });
-                break;
-
-            case "image":
-
-                var msg = {
-                    sender: loggedIn(req.cookies.token),
-                    message: "/" + req.file.path,
-                }
-                io.emit('chat image', msg);
-
-                var messagehtml = '<li class="' + msg.sender + ' msgtxt"><p class="msg"><b>' + msg.sender + ':</b> <img src="' + msg.message + '"></p></li>\n';
-                fs.appendFile(__dirname + '/msglog.html', messagehtml, function(err) {
-
-                });
-                console.log(msg);
-                console.log(msg.sender + " has sent an image");
-                break;
-            case "reply":
-
-                //Create object
-                var postObject = {
-                    id: escape(req.body.threadid),
-                    title: escape(req.body.title),
-                    poster: escape(loggedIn(req.cookies.token)),
-                    body: escape(req.body.body),
-                    image: "/" + req.file.path,
-                    time: Date.now()
-                };
-                var current = fs.readFileSync(__dirname + "/threads/" + postObject.id + ".json")
-                var thread = JSON.parse(current);
-                thread.points += 20000;
-                var reply = postObject;
-                thread.replies.push(reply);
-                var json = JSON.stringify(thread);
-                fs.writeFile(__dirname + '/threads/' + postObject.id + ".json", json, function(err) {
-
-                    if (err) throw err;
-
-                    console.log('New REply');
-                    io.sockets.emit('reply new', postObject);
-                });
-                break;
-        }
+            console.log('New Thread');
+            io.sockets.emit('thread new', postObject);
+        });
     }
+});
 
+app.post('/chat/image', upload.single('image'), function(req, res) {
+    if (!loggedIn(req.cookies.token)) {
+        res.sendFile(__dirname + '/login.html');
+    } else {
+        var msg = {
+            sender: loggedIn(req.cookies.token),
+            message: "/" + req.file.path,
+        }
+        io.emit('chat image', msg);
+
+        var messagehtml = '<li class="' + msg.sender + ' msgtxt"><p class="msg"><b>' + msg.sender + ':</b> <img src="' + msg.message + '"></p></li>\n';
+        fs.appendFile(__dirname + '/msglog.html', messagehtml, function(err) {
+
+        });
+        console.log(JSON.stringify(msg));
+        res.send(JSON.stringify(msg));
+        console.log(msg.sender + " has sent an image");
+    }
+});
+
+app.post('/post/reply', function(req, res) {
+    if (!loggedIn(req.cookies.token)) {
+        res.sendFile(__dirname + '/login.html');
+    } else {
+        var postObject = {
+            id: escape(req.body.threadid),
+            title: escape(req.body.title),
+            poster: escape(loggedIn(req.cookies.token)),
+            body: escape(req.body.body),
+            time: Date.now()
+        };
+
+        fs.readFile(__dirname + "/threads/" + postObject.id + ".json", function(err, current) {
+            var thread = JSON.parse(current);
+            thread.points += 20000;
+            var reply = postObject;
+            thread.replies.push(reply);
+            var json = JSON.stringify(thread);
+            res.send(json);
+            if (postObject.title == "DELETE" && postObject.poster == thread.poster) {
+                fs.unlink(__dirname + "/threads/" + postObject.id + ".json");
+                io.sockets.emit('thread delete', thread.id);
+            } else {
+            fs.writeFile(__dirname + '/threads/' + postObject.id + ".json", json, function(err) {
+
+                if (err) throw err;
+
+                console.log('New REply');
+                io.sockets.emit('reply new', postObject);
+            });
+            }
+        });
+
+
+    }
 });
 var clients = [];
 Array.prototype.getUnique = function() {
@@ -383,7 +388,7 @@ io.on('connection', function(socket) {
             id: "typing-" + socket.id.split("").splice(2, 21).join(""),
             typing: false
         });
-        
+
         if (!isOnline(socket.username)) {
             setTimeout(function() {
                 if (!isOnline(socket.username)) {

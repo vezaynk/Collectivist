@@ -22,9 +22,9 @@
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
-        <form method="POST" target="target" action="/action/post" enctype='multipart/form-data'>
+        <form method="POST" target="target" action="/post/new" enctype='multipart/form-data'>
             <input type="text" placeholder="Title" name="title">
-            <input type="file" name="image">
+            <input type="file" name="image" required>
             <textarea placeholder="Body" name="body" id="" cols="30" rows="10"></textarea>
             <input class="button large" value="Publish Topic" type="submit">
         </form>
@@ -62,11 +62,9 @@
             </div>
             <div class="post-reply">
                 <h3 style="text-align: center; text-decoration: underline; color: #ccc;">Post Reply</h3>
-                <form method="POST" target="target" id="replyForm" action="/action/reply" >
+                <form method="POST" target="target" id="replyForm" action="/post/reply" >
                     <input type="text" placeholder="Title" name="title">
                     <input type="hidden" name="threadid" id="replyThreadID">
-
-                    <input type="file" style="display:none;" id="fakeReplyImage">
                     <input type="hidden" id="realReplyImage" name="image">
                     <textarea placeholder="Body" name="body" id="" cols="30" rows="10"></textarea>
                     <input class="button large" value="Publish Response" type="submit">
@@ -103,8 +101,8 @@
         <h1>Share Image</h1>
         <p class="lead">Click or Drag-Drop image. Keep file sizes minimal.</p>
 
-        <form target="target" action="/action/image" method="POST" enctype='multipart/form-data'>
-            <input type="file" name="image" style="width: 100%; height: 200px; background-color: #ccc;">
+        <form target="target" action="/chat/image" method="POST" enctype='multipart/form-data'>
+            <input type="file" name="image" style="width: 100%; height: 200px; background-color: #ccc;" required>
             <input type="submit" value="Send Image" class="button ">
         </form>
     </div>
