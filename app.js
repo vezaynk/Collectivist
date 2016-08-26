@@ -179,6 +179,7 @@ app.get('/threads/:threadid', function(req, res) {
                         var topush = JSON.parse(contents);
                         tmp.push(topush);
                         if (i == files.length - 1){
+                            //Yes! It works!
                             res.send(sortJSON(tmp, 'points'));
                         }
                     });

@@ -93,7 +93,7 @@ server {
 
 <VirtualHost *:443>
 
-   ServerName ghostblog.me
+   ServerName *your-domain-name*
 
    SSLEngine on
    SSLCertificateFile /certs.crt
