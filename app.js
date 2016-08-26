@@ -123,16 +123,18 @@ app.post('/auth', function(req, res) {
     var password = req.body.password.hashCode();
     console.log("Attempted authentication: " + username + " ********")
     var token = newToken();
-    var data = fs.readFileSync(__dirname + "/users/" + username + ".json");
-    var json = JSON.parse(data);
-    if (json.password == password) {
-        res.cookie("token", token);
-        res.cookie("localUser", req.body.username);
-        tokens[token] = username;
-        console.log("User " + username + " is authenticated under the token " + token);
-    } else {
-        console.log("User auth for " + username + " has failed. Token is destroyed.");
-    }
+    var data = fs.readFile(__dirname + "/users/" + username + ".json", function (err, data){
+        var json = JSON.parse(data);
+        if (json.password == password && !err) {
+            res.cookie("token", token);
+            res.cookie("localUser", req.body.username);
+            tokens[token] = username;
+            console.log("User " + username + " is authenticated under the token " + token);
+        } else {
+            console.log("User auth for " + username + " has failed. Token is destroyed.");
+        }
+    });
+
     res.writeHead(302, {
         'Location': '/'
     });
