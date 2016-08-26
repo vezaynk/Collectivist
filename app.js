@@ -133,12 +133,13 @@ app.post('/auth', function(req, res) {
         } else {
             console.log("User auth for " + username + " has failed. Token is destroyed.");
         }
+        res.writeHead(302, {
+            'Location': '/'
+        });
+        res.end();
     });
 
-    res.writeHead(302, {
-        'Location': '/'
-    });
-    res.end();
+
 });
 
 //Scripts and CSS
@@ -173,12 +174,17 @@ app.get('/threads/:threadid', function(req, res) {
             fs.readdir(__dirname + "/threads/", function(err, files) {
                 if (err) return;
                 var tmp = [];
-                files.forEach(function(f) {
-                    var contents = fs.readFileSync(__dirname + "/threads/" + f, 'utf8');
-                    var topush = JSON.parse(contents);
-                    tmp.push(topush);
+                files.forEach(function(f, i) {
+                    fs.readFile(__dirname + "/threads/" + f, 'utf8', function (err, contents){
+                        var topush = JSON.parse(contents);
+                        tmp.push(topush);
+                        if (i == files.length - 1){
+                            res.send(sortJSON(tmp, 'points'));
+                        }
+                    });
+
                 });
-                res.send(sortJSON(tmp, 'points'));
+
             });
         } else {
             console.log("Requesting file " + __dirname + '/threads/' + req.params.threadid);
@@ -213,7 +219,7 @@ app.post('/post/new', upload.single('image'), function(req, res) {
             if (err) throw err;
 
             console.log('New Thread');
-            io.sockets.emit('thread new ' + postObject);
+            io.sockets.emit('thread new', postObject);
         });
     }
 });
