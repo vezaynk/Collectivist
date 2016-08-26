@@ -255,37 +255,40 @@ app.post('/post/reply', function(req, res) {
     if (!loggedIn(req.cookies.token)) {
         res.sendFile(__dirname + '/login.html');
     } else {
-        var postObject = {
-            id: escape(req.body.threadid),
-            title: escape(req.body.title),
-            poster: escape(loggedIn(req.cookies.token)),
-            body: escape(req.body.body),
-            time: Date.now()
-        };
+        if (!(postObject.title == postObject.body == "")){
+            var postObject = {
+                id: escape(req.body.threadid),
+                title: escape(req.body.title),
+                poster: escape(loggedIn(req.cookies.token)),
+                body: escape(req.body.body),
+                time: Date.now()
+            };
 
-        fs.readFile(__dirname + "/threads/" + postObject.id + ".json", function(err, current) {
-            if (err){
-                return;
-            }
-            var thread = JSON.parse(current);
-            thread.points += 20000;
-            var reply = postObject;
-            thread.replies.push(reply);
-            var json = JSON.stringify(thread);
-            res.send(json);
-            if (postObject.title == "DELETE" && postObject.poster == thread.poster) {
-                fs.unlink(__dirname + "/threads/" + postObject.id + ".json");
-                io.sockets.emit('thread delete', thread.id);
-            } else {
-            fs.writeFile(__dirname + '/threads/' + postObject.id + ".json", json, function(err) {
+            fs.readFile(__dirname + "/threads/" + postObject.id + ".json", function(err, current) {
+                if (err){
+                    return;
+                }
+                var thread = JSON.parse(current);
+                thread.points += 20000;
+                var reply = postObject;
+                thread.replies.push(reply);
+                var json = JSON.stringify(thread);
+                res.send(json);
+                if (postObject.title == "DELETE" && postObject.poster == thread.poster) {
+                    fs.unlink(__dirname + "/threads/" + postObject.id + ".json");
+                    io.sockets.emit('thread delete', thread.id);
+                } else {
+                fs.writeFile(__dirname + '/threads/' + postObject.id + ".json", json, function(err) {
 
-                if (err) throw err;
+                    if (err) throw err;
 
-                console.log('New REply');
-                io.sockets.emit('reply new', postObject);
+                    console.log('New REply');
+                    io.sockets.emit('reply new', postObject);
+                });
+                }
             });
-            }
-        });
+        }
+
 
 
     }
