@@ -211,7 +211,7 @@ app.post('/post/new', upload.single('image'), function(req, res) {
             if (err) throw err;
 
             console.log('New Thread');
-            io.sockets.emit('thread new ' postObject);
+            io.sockets.emit('thread new ' + postObject);
         });
     }
 });
