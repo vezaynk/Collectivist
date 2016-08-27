@@ -163,8 +163,13 @@ app.get("/msglog", function(req, res) {
         res.sendFile(__dirname + '/login.html');
     } else {
         fs.readFile(__dirname + '/msglog.html', function(err, value) {
-            //Convert to string, get 100 latest messages and send.
-            res.send((value + "").split("\n").reverse().slice(0, 100).reverse().join(""));
+            if (err){
+                res.send("");
+            } else {
+                //Convert to string, get 100 latest messages and send.
+                res.send((value + "").split("\n").reverse().slice(0, 100).reverse().join(""));
+            }
+
         });
     }
 });
@@ -288,9 +293,6 @@ app.post('/post/reply', function(req, res) {
                 }
             });
         }
-
-
-
     }
 });
 var clients = [];
