@@ -41,6 +41,8 @@ function addReply(id, title, poster, body, image, time) {
 
 function loadThread(threadid) {
     switch (threadid) {
+        case "":
+            break;
         case "s":
             $('#settingsdialog').foundation('open');
             break;
@@ -66,3 +68,9 @@ function loadThread(threadid) {
     window.onhashchange = function () {
         loadThread(window.location.hash.slice(1));
     }
+
+
+$(document).on("closed.zf.reveal", ".reveal", function()
+{
+    window.location.hash = "";
+})
