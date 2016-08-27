@@ -98,3 +98,9 @@
   padding-left: 25px;
   padding-right: 25px;
 }
+.menu > li > a i, .menu > li > a img {
+    margin-right: 0;
+}
+.menu > li > a {
+    padding: 0;
+}

@@ -118,13 +118,15 @@
                     <ul class="menu">
 
                             <li>
-                                <button type="button" class="button warning" data-open="donatedialog"><i class="fa fa-usd" aria-hidden="true"></i><i class="fa fa-usd" aria-hidden="true"></i><i class="fa fa-usd" aria-hidden="true"></i></button>
+                                <a href="#d"><button type="button" class="button warning" ><i class="fa fa-usd" aria-hidden="true"></i><i class="fa fa-usd" aria-hidden="true"></i><i class="fa fa-usd" aria-hidden="true"></i></button></a>
                             </li>
                         <li>
-                            <button data-open="settingsdialog" type="button" class="button success"> <i class="fa fa-cog" aria-hidden="true"></i> </button>
+                            <a href="#s"><button  type="button" class="button success"> <i class="fa fa-cog" aria-hidden="true"></i> </button></a>
                         </li>
                         <li>
-                            <button data-open="newthreaddialog" type="button" class="button"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                            <a href="#n">
+                            <button  type="button" class="button"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                        </a>
                         </li>
                     </ul>
                 </div>
@@ -143,7 +145,8 @@
                 <div class="top-bar-right">
                     <ul class="menu">
                         <li>
-                            <button type="button" class="button" data-open="shareimagedialog"> <i class="fa fa-picture-o" aria-hidden="true"></i> </button>
+                            <a href="#i">
+                            <button type="button" class="button" > <i class="fa fa-picture-o" aria-hidden="true"></i> </button></a>
                         </li>
                         <li>
                             <button onclick="window.location.href = '/logout'" type="button" class="button alert"> <i class="fa fa-sign-out" aria-hidden="true"></i>
@@ -187,6 +190,7 @@
 <script src="/static/typing.js"></script>
 <script>
     $(document).foundation();
+    loadThread(window.location.hash.slice(1));
 </script>
 
 </html>

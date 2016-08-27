@@ -42,10 +42,19 @@ function addReply(id, title, poster, body, image, time) {
 function loadThread(threadid) {
     switch (threadid) {
         case "s":
+            $('#settingsdialog').foundation('open');
             break;
         case "d":
+            $('#donatedialog').foundation('open');
             break;
-        case "s":
+        case "n":
+            $('#newthreaddialog').foundation('open');
+            break;
+        case "i":
+            $('#shareimagedialog').foundation('open');
+            break;
+        case "i":
+            $('#shareimagedialog').foundation('open');
             break;
         default:
             getThread(threadid);
@@ -53,8 +62,7 @@ function loadThread(threadid) {
 
 }
 
-$(document).on("click", ".thread-button", function() {
-    var postid = $(this).data("postid");
-    loadThread(postid);
 
-});
+    window.onhashchange = function () {
+        loadThread(window.location.hash.slice(1));
+    }
