@@ -102,6 +102,14 @@ function newToken() {
     return Crypto.randomBytes(8).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '');
 }
 
+var vouchers = [];
+console.log("Generating 30 voucher codes. These are reset on every restart.")
+for (var i = 0; i != 30; i++){
+    var voucher = newToken();
+    console.log("New voucher: " + voucher);
+    vouchers.push(voucher);
+}
+
 function loggedIn(token) {
     if (tokens[token] == undefined) {
         return false;
@@ -163,7 +171,8 @@ app.get('/register', function(req, res) {
 });
 
 app.post('/register', function(req, res) {
-    if (req.body.voucher == "let me in"){
+    if (vouchers.indexOf(req.body.voucher) !== -1){
+        delete vouchers[vouchers.indexOf(req.body.voucher)];
         var userobject = {
             username: req.body.username,
             password: req.body.password.hashCode()
