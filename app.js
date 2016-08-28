@@ -178,8 +178,13 @@ app.post('/register', function(req, res) {
             password: req.body.password.hashCode()
         };
         var raw = JSON.stringify(userobject);
-        fs.writeFile(__dirname + "/users/" + userobject.username + ".json", raw, function (err){
-            res.send("Registered");
+        fs.writeFile(__dirname + "/users/" + userobject.username + ".json", raw, { flag: 'wx' }, function (err){
+            if (err){
+                res.send("Username already taken");
+            } else {
+                res.send("Registered");
+            }
+
         });
     } else {
         res.send("Invalid Voucher");
