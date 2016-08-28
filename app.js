@@ -125,6 +125,10 @@ app.post('/auth', function(req, res) {
     var token = newToken();
     var data = fs.readFile(__dirname + "/users/" + username + ".json", function (err, data){
         if (err){
+            res.writeHead(302, {
+                'Location': '/'
+            });
+            res.end();
             return;
         }
         var json = JSON.parse(data);
@@ -224,7 +228,6 @@ app.post('/post/new', upload.single('image'), function(req, res) {
             replies: []
         };
         console.log(JSON.stringify(postObject));
-        res.send(JSON.stringify(postObject));
         console.log("Writing file " + __dirname + '/threads/' + postObject.id + ".json");
         fs.writeFile(__dirname + '/threads/' + postObject.id + ".json", JSON.stringify(postObject), function(err) {
 
@@ -232,6 +235,7 @@ app.post('/post/new', upload.single('image'), function(req, res) {
 
             console.log('New Thread');
             io.sockets.emit('thread new', postObject);
+            res.send(JSON.stringify(postObject));
         });
     }
 });
