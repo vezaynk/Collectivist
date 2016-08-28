@@ -42,6 +42,7 @@ function addReply(id, title, poster, body, image, time) {
 function loadThread(threadid) {
     switch (threadid) {
         case "":
+            $('.reveal').foundation('close');
             break;
         case "s":
             $('#settingsdialog').foundation('open');
