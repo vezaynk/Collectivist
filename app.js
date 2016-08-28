@@ -110,6 +110,20 @@ for (var i = 0; i != 30; i++){
     vouchers.push(voucher);
 }
 
+fs.appendFileSync("vouchers.txt", vouchers.join("\n"));
+vouchers = fs.readFileSync("vouchers.txt", 'utf8').split("\n");
+
+function useVoucher(voucher){
+    if (vouchers.indexOf(voucher) !== -1){
+        delete vouchers[vouchers.indexOf(voucher)];
+        fs.writeFile("vouchers.txt", vouchers.join("\n"));
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
 function loggedIn(token) {
     if (tokens[token] == undefined) {
         return false;
@@ -172,7 +186,7 @@ app.get('/register', function(req, res) {
 
 app.post('/register', function(req, res) {
     if (vouchers.indexOf(req.body.voucher) !== -1){
-        delete vouchers[vouchers.indexOf(req.body.voucher)];
+
         var userobject = {
             username: req.body.username,
             password: req.body.password.hashCode()
@@ -182,6 +196,7 @@ app.post('/register', function(req, res) {
             if (err){
                 res.send("Username already taken");
             } else {
+                useVoucher(req.body.voucher);
                 res.send("Registered");
             }
 
