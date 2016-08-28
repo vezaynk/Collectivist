@@ -37,7 +37,9 @@ $("#messages").scroll(function() {
 
 socket.on('disconnect', function () {
   setTimeout(function (){
-    location.href = location.href;
+    if (!socket.connected){
+      location.href = location.href;
+    }    
   }, 5000);
 
 });
