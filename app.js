@@ -158,6 +158,25 @@ app.get('/uploads/:file', function(req, res) {
     res.sendFile(__dirname + '/uploads/' + req.params.file);
 });
 
+app.get('/register', function(req, res) {
+    res.sendFile(__dirname + '/register.html');
+});
+
+app.post('/register', function(req, res) {
+    if (req.body.voucher == "let me in"){
+        var userobject = {
+            username: req.body.username,
+            password: req.body.password.hashCode()
+        };
+        var raw = JSON.stringify(userobject);
+        fs.writeFile(__dirname + "/users/" + userobject.username + ".json", raw, function (err){
+            res.send("Registered");
+        });
+    } else {
+        res.send("Invalid Voucher");
+    }
+});
+
 app.get("/logout", function(req, res) {
     logout(req.cookies.token);
     res.sendFile(__dirname + '/login.html');
