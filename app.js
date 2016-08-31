@@ -188,7 +188,7 @@ app.post('/register', function(req, res) {
     if (vouchers.indexOf(req.body.voucher) !== -1){
 
         var userobject = {
-            username: req.body.username,
+            username: req.body.username.toLowerCase(),
             password: req.body.password.hashCode()
         };
         var raw = JSON.stringify(userobject);
@@ -258,6 +258,27 @@ app.get('/threads/:threadid', function(req, res) {
 
 });
 
+
+app.post('/chat/image', upload.single('image'), function(req, res) {
+    if (!loggedIn(req.cookies.token)) {
+        res.sendFile(__dirname + '/login.html');
+    } else {
+        var msg = {
+            sender: loggedIn(req.cookies.token),
+            message: "/" + req.file.path,
+        }
+        io.emit('chat image', msg);
+
+        var messagehtml = '<li class="' + msg.sender + ' msgtxt"><p class="msg"><b>' + msg.sender + ':</b> <img src="' + msg.message + '"></p></li>\n';
+        fs.appendFile(__dirname + '/msglog.html', messagehtml, function(err) {
+
+        });
+        console.log(JSON.stringify(msg));
+        res.send(JSON.stringify(msg));
+        console.log(msg.sender + " has sent an image");
+    }
+});
+
 app.post('/post/new', upload.single('image'), function(req, res) {
     if (!loggedIn(req.cookies.token)) {
         res.sendFile(__dirname + '/login.html');
@@ -285,26 +306,6 @@ app.post('/post/new', upload.single('image'), function(req, res) {
             io.sockets.emit('thread new', postObject);
             res.send(JSON.stringify(postObject));
         });
-    }
-});
-
-app.post('/chat/image', upload.single('image'), function(req, res) {
-    if (!loggedIn(req.cookies.token)) {
-        res.sendFile(__dirname + '/login.html');
-    } else {
-        var msg = {
-            sender: loggedIn(req.cookies.token),
-            message: "/" + req.file.path,
-        }
-        io.emit('chat image', msg);
-
-        var messagehtml = '<li class="' + msg.sender + ' msgtxt"><p class="msg"><b>' + msg.sender + ':</b> <img src="' + msg.message + '"></p></li>\n';
-        fs.appendFile(__dirname + '/msglog.html', messagehtml, function(err) {
-
-        });
-        console.log(JSON.stringify(msg));
-        res.send(JSON.stringify(msg));
-        console.log(msg.sender + " has sent an image");
     }
 });
 
