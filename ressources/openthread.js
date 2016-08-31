@@ -11,7 +11,7 @@ function getThread(threadid) {
             addReply(threadid, value.title, value.poster, value.body, value.image, value.time)
         });
 
-            $('.toggleImage').on('click', function() {
+            $('body').on('click', ".toggleImage", function() {
                 $(this).toggleClass("medium-4");
 
             });
