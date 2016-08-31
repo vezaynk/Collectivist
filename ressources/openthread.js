@@ -3,17 +3,19 @@ String.prototype.replaceAll = function(search, replacement) {
     return target.replace(new RegExp(search, 'g'), replacement);
 };
 
+
+
+$('body').on('click', ".toggleImage", function() {
+    $(this).toggleClass("medium-4");
+
+});
+
 function getThread(threadid) {
     $.getJSON("threads/" + threadid + ".json", function(json) {
         var data = json;
         openThread(data.id, data.title, data.poster, data.body, data.image, data.time, data.replies);
         json.replies.forEach(function(value, index, array) {
             addReply(threadid, value.title, value.poster, value.body, value.image, value.time)
-        });
-
-        $('body').on('click', ".toggleImage", function() {
-            $(this).toggleClass("medium-4");
-
         });
         $('#threadopen').foundation('toggle');
 
