@@ -11,17 +11,17 @@ function getThread(threadid) {
             addReply(threadid, value.title, value.poster, value.body, value.image, value.time)
         });
 
-            $('body').on('click', ".toggleImage", function() {
-                $(this).toggleClass("medium-4");
+        $('body').on('click', ".toggleImage", function() {
+            $(this).toggleClass("medium-4");
 
-            });
+        });
         $('#threadopen').foundation('toggle');
 
     });
 }
 
 function openThread(id, title, poster, body, image, time, replies) {
-    var threadOP = "<div class='small-12 columns medium-4 toggleImage'><img src='" + image + "'></div><div class=\"medium-8 small-12 columns preview-text\"><div class=\"row heading\"><h3 class=\"title\">" + title + "<\/h3><h6>ID: <span class=\"author\">" + poster + "<\/span><\/h6>\r\n                    <\/div><div class=\"row body\"><p>" + body.replaceAll("\n", "<br>") + "<\/p><\/div><\/div>";
+    var threadOP = "<div class='small-12 columns medium-4 toggleImage'><img src='" + image + "'></div><div class=\"medium-8 small-12 columns preview-text\"><div class=\"row heading\"><h3 class=\"title\">" + title + "<\/h3><h6>ID: <span class=\"author\">" + poster + "<\/span> | <span>" + moment(time).format("DD-MM-YYYY h:mm:ss") + "</span><\/h6>\r\n                    <\/div><div class=\"row body\"><p>" + body.replaceAll("\n", "<br>") + "<\/p><\/div><\/div>";
 
     $("#thread-dynamic .thread-OP").html(threadOP);
 
@@ -33,9 +33,9 @@ function openThread(id, title, poster, body, image, time, replies) {
 }
 
 function addReply(id, title, poster, body, image, time) {
-    var replyhtml = "<div class=\"small-12 columns preview-text\"><div class=\"row heading\"><h3 class=\"title\">" + title + "<\/h3> <h6>ID: <span class=\"author\">" + poster + "<\/span><\/h6><\/div><div class=\"row body\"><p>" + body.replaceAll("\n", "<br>") + "<\/p><\/div><\/div><\/div><hr>";
-    if (image != ""){
-        replyhtml = "<div class='small-12 columns medium-4 toggleImage'><img src='" + image + "'></div><div class=\"small-12 medium-8 columns preview-text\"><div class=\"row heading\"><h3 class=\"title\">" + title + "<\/h3> <h6>ID: <span class=\"author\">" + poster + "<\/span><\/h6><\/div><div class=\"row body\"><p>" + body.replaceAll("\n", "<br>") + "<\/p><\/div><\/div><\/div><hr>";
+    var replyhtml = "<div class=\"small-12 columns preview-text\"><div class=\"row heading\"><h3 class=\"title\">" + title + "<\/h3> <h6>ID: <span class=\"author\">" + poster + "<\/span> | <span>" + moment(time).format("DD-MM-YYYY h:mm:ss") + "</span><\/h6><\/div><div class=\"row body\"><p>" + body.replaceAll("\n", "<br>") + "<\/p><\/div><\/div><\/div><hr>";
+    if (image != "") {
+        replyhtml = "<div class='small-12 columns medium-4 toggleImage'><img src='" + image + "'></div><div class=\"small-12 medium-8 columns preview-text\"><div class=\"row heading\"><h3 class=\"title\">" + title + "<\/h3> <h6>ID: <span class=\"author\">" + poster + "<\/span> | <span>" + moment(time).format("DD-MM-YYYY h:mm:ss") + "</span><\/h6><\/div><div class=\"row body\"><p>" + body.replaceAll("\n", "<br>") + "<\/p><\/div><\/div><\/div><hr>";
     }
 
     //Append only if threadid matches
@@ -72,12 +72,11 @@ function loadThread(threadid) {
 }
 
 
-    window.onhashchange = function () {
-        loadThread(window.location.hash.slice(1));
-    }
+window.onhashchange = function() {
+    loadThread(window.location.hash.slice(1));
+}
 
 
-$(document).on("closed.zf.reveal", ".reveal", function()
-{
+$(document).on("closed.zf.reveal", ".reveal", function() {
     window.location.hash = "";
 })
