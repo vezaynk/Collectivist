@@ -186,17 +186,20 @@ app.get('/register', function(req, res) {
 
 app.post('/register', function(req, res) {
     if (vouchers.indexOf(req.body.voucher) !== -1){
-
+        console.log("Trying voucher " + req.body.voucher);
         var userobject = {
             username: req.body.username.toLowerCase(),
             password: req.body.password.hashCode()
         };
         var raw = JSON.stringify(userobject);
+        console.log("Attempted registration: " + raw);
         fs.writeFile(__dirname + "/users/" + userobject.username + ".json", raw, { flag: 'wx' }, function (err){
             if (err){
+                console.log("Failed to register " + userobject.username + ": Already taken");
                 res.send("Username already taken");
             } else {
                 useVoucher(req.body.voucher);
+                console.log("Registered " + userobject.username);
                 res.send("Registered");
             }
 
