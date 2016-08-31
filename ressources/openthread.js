@@ -10,7 +10,13 @@ function getThread(threadid) {
         json.replies.forEach(function(value, index, array) {
             addReply(threadid, value.title, value.poster, value.body, value.image, value.time)
         });
+
+            $('.toggleImage').on('click', function() {
+                $(this).toggleClass("medium-4");
+
+            });
         $('#threadopen').foundation('toggle');
+
     });
 }
 
@@ -24,14 +30,14 @@ function openThread(id, title, poster, body, image, time, replies) {
     $("#thread-dynamic .thread-replies").html("");
     $("#thread-dynamic .reply-count").html(replies.length);
 
-    $('.toggleImage').on('click', function() {
-        $(".toggleImage").toggleClass("medium-4");
-
-    });
 }
 
 function addReply(id, title, poster, body, image, time) {
     var replyhtml = "<div class=\"small-12 columns preview-text\"><div class=\"row heading\"><h3 class=\"title\">" + title + "<\/h3> <h6>ID: <span class=\"author\">" + poster + "<\/span><\/h6><\/div><div class=\"row body\"><p>" + body.replaceAll("\n", "<br>") + "<\/p><\/div><\/div><\/div><hr>";
+    if (image != ""){
+        replyhtml = "<div class='small-12 columns medium-4 toggleImage'><img src='" + image + "'></div><div class=\"small-12 medium-8 columns preview-text\"><div class=\"row heading\"><h3 class=\"title\">" + title + "<\/h3> <h6>ID: <span class=\"author\">" + poster + "<\/span><\/h6><\/div><div class=\"row body\"><p>" + body.replaceAll("\n", "<br>") + "<\/p><\/div><\/div><\/div><hr>";
+    }
+
     //Append only if threadid matches
     if ($("#threadopen").data("threadid") == id) {
         $(replyhtml).appendTo("#thread-dynamic .thread-replies");

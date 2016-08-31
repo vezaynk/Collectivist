@@ -294,7 +294,13 @@ app.post('/post/new', upload.single('image'), function(req, res) {
             title: escape(req.body.title),
             poster: escape(loggedIn(req.cookies.token)),
             body: escape(req.body.body),
-            image: "/" + req.file.path,
+            image: function(){
+                if (req.file){
+                    return "/" + req.file.path;
+                } else {
+                    return "";
+                }
+            }(),
             time: Date.now(),
             points: Date.now(),
             replies: []
@@ -312,18 +318,27 @@ app.post('/post/new', upload.single('image'), function(req, res) {
     }
 });
 
-app.post('/post/reply', function(req, res) {
+app.post('/post/reply', upload.single('image'), function(req, res) {
     if (!loggedIn(req.cookies.token)) {
         res.sendFile(__dirname + '/login.html');
     } else {
-        if (!(postObject.title == postObject.body == "")){
-            var postObject = {
-                id: escape(req.body.threadid),
-                title: escape(req.body.title),
-                poster: escape(loggedIn(req.cookies.token)),
-                body: escape(req.body.body),
-                time: Date.now()
-            };
+        var postObject = {
+            id: escape(req.body.threadid),
+            title: escape(req.body.title),
+            poster: escape(loggedIn(req.cookies.token)),
+            body: escape(req.body.body),
+            image: function(){
+                if (req.file){
+                    return "/" + req.file.path;
+                } else {
+                    return "";
+                }
+            }(),
+            time: Date.now()
+        };
+
+        if (!(postObject.title == "")){
+
 
             fs.readFile(__dirname + "/threads/" + postObject.id + ".json", function(err, current) {
                 if (err){
