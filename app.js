@@ -143,7 +143,7 @@ app.get('/', function(req, res) {
 app.post('/auth', function(req, res) {
     var username = req.body.username.toLowerCase();
     var password = req.body.password.hashCode();
-    console.log("Attempted authentication: " + username + " ********")
+    console.log("Attempted authentication: " + username + " ********");
     var token = newToken();
     var data = fs.readFile(__dirname + "/users/" + username + ".json", function (err, data){
         if (err){
@@ -222,7 +222,8 @@ app.get("/msglog", function(req, res) {
                 res.send("");
             } else {
                 //Convert to string, get 100 latest messages and send.
-                res.send((value + "").split("\n").reverse().slice(0, 100).reverse().join(""));
+                console.log(req.query.page);
+                res.send((value + "").split("\n").reverse().slice(0 + 100 * req.query.page, 100 + 100 * req.query.page).reverse().join(""));
             }
 
         });
