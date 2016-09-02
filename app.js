@@ -23,6 +23,10 @@ var upload = multer({
 });
 
 
+io.use(cookieParser2);
+
+app.use(cookieParser());
+
 //Overload console.log to log to file.
 console.log = function(d) {
     d = "[" + moment().format() + "]" + d;
@@ -30,7 +34,6 @@ console.log = function(d) {
     log_file.write(util.format(d) + '\n');
 };
 
-io.use(cookieParser2);
 
 String.prototype.hashCode = function() {
     var hash = 0,
@@ -96,7 +99,6 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
     extended: true
 }));
 
-app.use(cookieParser());
 
 function newToken() {
     return Crypto.randomBytes(8).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '');
