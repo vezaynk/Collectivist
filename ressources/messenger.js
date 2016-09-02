@@ -31,18 +31,18 @@ function updateScroll() {
 }
 
 $("#messages").scroll(function() {
-    if ($("#messages")[0].scrollTop === 0) {
-        var prev_height = $("#messages").height();
+    if ($(this).scrollTop === 0) {
+        var prev_height = $(this).height();
         $.get("/msglog?page=" + page++, function(data) {
-            var $current_top_element = $('#messages').children().first();
-            $('#messages').prepend(data);
+            var $current_top_element = $(this).children().first();
+            $(this).prepend(data);
 
             var previous_height = 0;
             $current_top_element.prevAll().each(function() {
                 previous_height += $(this).outerHeight();
             });
 
-            $('#messages').scrollTop(previous_height);
+            $(this).scrollTop(previous_height);
             $("." + localUser + ".msgtxt:not(.you)").addClass("you");
         });
     }
