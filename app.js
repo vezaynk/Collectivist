@@ -182,6 +182,10 @@ app.get('/uploads/:file', function(req, res) {
     res.sendFile(__dirname + '/uploads/' + req.params.file);
 });
 
+app.get('/favicon.ico', function(req, res) {
+    res.sendFile(__dirname + '/ressources/favicon.ico');
+});
+
 app.get('/register', function(req, res) {
     res.sendFile(__dirname + '/register.html');
 });
